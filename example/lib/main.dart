@@ -41,7 +41,7 @@ class _CoffeeShopState extends State<CoffeeShop> {
       showToast(context, result.status.name);
       switch (result.status) {
         case PaymentStatus.paid:
-          // handle success.
+          // handle success
           break;
         case PaymentStatus.failed:
           // handle failure.

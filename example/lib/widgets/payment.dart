@@ -20,10 +20,41 @@ class PaymentMethods extends StatelessWidget {
           ),
         ),
         const Text("or"),
-        CreditCard(
-          config: paymentConfig,
-          onPaymentResult: onPaymentResult,
-        )
+        ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              isDismissible: false,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+              ),
+              builder: (context) {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.70,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  padding: const EdgeInsets.only(top: 24),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: CreditCard(
+                      config: paymentConfig,
+                      onPaymentResult: onPaymentResult,
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: const Text("Mada Button"),
+        ),
       ],
     );
   }

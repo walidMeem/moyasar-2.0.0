@@ -32,6 +32,7 @@
 .pub-cache/
 .pub/
 /build/
+/example/build
 *.g.dart
 *.gr.dart
 *.config.dart

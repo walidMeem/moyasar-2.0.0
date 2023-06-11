@@ -102,6 +102,30 @@ class _CreditCardState extends State<CreditCard> {
       key: _formKey,
       child: Column(
         children: [
+          //title and close button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Mada Card Details",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                  size: 30,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
           CardFormField(
               inputDecoration: buildInputDecoration(
                 hintText: widget.locale.nameOnCard,
@@ -113,6 +137,7 @@ class _CreditCardState extends State<CreditCard> {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp('[a-zA-Z. ]')),
               ]),
+          const Spacer(),
           CardFormField(
             inputDecoration: buildInputDecoration(
                 hintText: widget.locale.cardNumber, addNetworkIcons: true),
@@ -126,6 +151,7 @@ class _CreditCardState extends State<CreditCard> {
             onSaved: (value) =>
                 _cardData.number = CardUtils.getCleanedNumber(value!),
           ),
+          const Spacer(),
           CardFormField(
             inputDecoration: buildInputDecoration(
               hintText: '${widget.locale.expiry} (MM / YY)',
@@ -143,6 +169,7 @@ class _CreditCardState extends State<CreditCard> {
               _cardData.year = expireDate[1];
             },
           ),
+          const Spacer(),
           CardFormField(
             inputDecoration: buildInputDecoration(
               hintText: widget.locale.cvc,
@@ -155,26 +182,49 @@ class _CreditCardState extends State<CreditCard> {
                 CardUtils.validateCVC(input, widget.locale),
             onSaved: (value) => _cardData.cvc = value ?? '',
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: SizedBox(
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  minimumSize:
-                      const MaterialStatePropertyAll<Size>(Size.fromHeight(55)),
-                  backgroundColor:
-                      MaterialStatePropertyAll<Color>(Colors.red[700]!),
-                ),
-                onPressed: isSubmitting ? () {} : _saveForm,
-                child: isSubmitting
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      )
-                    : Text(showAmount(widget.config.amount, widget.locale)),
+          const Spacer(),
+          // Pay Button
+          InkWell(
+            onTap: isSubmitting ? () {} : _saveForm,
+            child: Container(
+              height: 64,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: const Color(0xffCDFF49),
+                borderRadius: BorderRadius.circular(35.0),
               ),
+              child: isSubmitting
+                  ? const Center(
+                      child: SizedBox(
+                        height: 35,
+                        width: 35,
+                        child: CircularProgressIndicator(
+                          color: Color(0xff1a1a1a),
+                          strokeWidth: 3,
+                        ),
+                      ),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Pay",
+                            style: TextStyle(
+                              color: Color(0xff1A1A1A),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                          ),
+                          NetworkIcon(name: 'assets/images/vector.png'),
+                        ],
+                      ),
+                    ),
             ),
           ),
+          const Spacer(),
         ],
       ),
     );
